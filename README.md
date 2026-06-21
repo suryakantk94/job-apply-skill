@@ -41,6 +41,54 @@ The skill is built around a few hard rules:
 4. In Claude Code, ask it to apply to a role or scan a careers page — it loads the skill and works
    from your `candidate.md`.
 
+## Usage
+
+Once the skill is installed and your `candidate.md` is filled in, you just talk to Claude Code in
+plain English. It reads the profile, navigates the ATS in a real Chrome window, fills every field
+from your data, and hands back only the steps a human must do (CAPTCHAs, emailed codes, login walls).
+
+**Apply to a single role:**
+
+```
+you ›  apply to this one: https://job-boards.greenhouse.io/acme/jobs/123456
+
+claude ›  Read candidate.md. Greenhouse form.
+          ✓ name / email / phone / LinkedIn  ✓ résumé (default) uploaded
+          ✓ work auth → "authorized now, sponsorship in future"
+          ✓ "Why Acme?" essay drafted from your shipped projects
+          ✓ EEO → declined   ✓ country → United States
+          Submitted → /confirmation reached. Logged to tracker.
+```
+
+**Scan a board, then apply to the good fits:**
+
+```
+you ›  scan acme's careers page and apply to anything mid-level I'm a fit for
+
+claude ›  12 eng roles found. After the years-gate filter:
+          • Software Engineer, Backend      → fits, applying
+          • Software Engineer II, Platform   → fits, applying
+          • Senior Staff Engineer            → skip (above level)
+          • Backend Engineer (7+ yrs)        → skip (hard gate)
+          Applied to 2. Both Submitted. 2 skipped (honest gate).
+```
+
+**Hand-back on a blocker** (the skill fills everything else first):
+
+```
+claude ›  Ashby form filled — name, résumé, essays, work auth all committed.
+          ⚠ One step left for you: the location field is a Google-Places
+          autocomplete that returns no options under automation.
+          Pick your city from the dropdown and hit Submit.
+```
+
+### What it will and won't do
+
+- **Will:** scan Greenhouse / Ashby / Lever boards, read the JD's years-gate, pick the right résumé,
+  fill contact + work-auth + EEO + essays, upload the résumé, submit, and track every application in CSV.
+- **Won't:** fabricate years to clear a hard gate, apply above your level, spray the same company,
+  answer EEO self-id, or guess identifying info it doesn't have — it asks you instead.
+
 ## ⚠️ Privacy
 
 `candidate.md` contains personal data (contact info, home address, work-authorization / visa status,
